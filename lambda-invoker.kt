@@ -20,20 +20,21 @@ object LambdaInvoker {
                 val lam = AWSLambdaClientBuilder.standard().build()
                 val path = System.getProperty("user.dir")
                 val list = Files.readAllLines(
-                        File("$path/src/main/kotlin/automation/payload.txt").toPath(),
+                        File("$path/payload.txt").toPath(),
                         Charset.defaultCharset()
                 )
 
                 val resultFile = "payload_${functionName}.csv"
-                var fileOut = File("$path/src/main/kotlin/automation", resultFile)
+                var fileOut = File("$path", resultFile)
                 fileOut.delete()
                 val elapsedTime = measureTimeMillis {
                         for (i in list) {
                                 val payload = """
                                     {
+                                        ...
                                         "": "${i}",
                                         "": "",
-                                        "": true
+                                        "": "",
                                         ...
                                     }
                                 """.trimIndent()
